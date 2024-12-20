@@ -1,7 +1,7 @@
 fn main() {
     let fizzbuzz_maxium: u64 = 810;
-    for n in 1..=fizzbuzz_maxium {
-        println!("{}", fizz_buzz(n, ": "))
+    for now in 1..=fizzbuzz_maxium {
+        println!("{}", fizz_buzz(now, ": "))
     }
 }
 
