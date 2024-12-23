@@ -11,7 +11,7 @@ fn main() {
 
     let mut total_turns: usize = 0;
 
-    for _ in 0..n {
+    for _ in 0..=n {
         total_turns += play(5, false);
     }
 
