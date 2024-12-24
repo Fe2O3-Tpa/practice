@@ -1,23 +1,5 @@
 use rand::Rng;
-use std::collections::HashSet;
-
-fn main() {
-    let n: u16 = 100;
-
-    if n == 0 {
-        println!("No games to play.");
-        return;
-    }
-
-    let mut total_turns: usize = 0;
-
-    for _ in 0..=n {
-        total_turns += play(5, false);
-    }
-
-    let average_turns: f64 = total_turns as f64 / n as f64;
-    println!("Average turns: {:.2}", average_turns);
-}
+use std::{collections::HashSet,cmp::max};
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 enum Role {
@@ -29,7 +11,7 @@ enum Role {
 impl Role {
     fn random() -> Self {
         let roles = [Role::Rock, Role::Scissors, Role::Paper];
-        let index = rand::thread_rng().gen_range(0, roles.len());
+        let index = rand::thread_rng().gen_range(0,roles.len());
         roles[index]
     }
 }
@@ -65,7 +47,7 @@ impl Janken {
 fn play(player_amount: usize, debug: bool) -> usize {
     let mut obj = Janken::new(player_amount);
     let mut did_turn = 0;
-    let max_iterations = 114514; // Prevent infinite loop with a cap. 114514
+    let max_iterations = 114514; // Prevent infinite loop with a cap
 
     loop {
         if did_turn >= max_iterations {
@@ -90,4 +72,28 @@ fn play(player_amount: usize, debug: bool) -> usize {
     }
 
     did_turn
+}
+
+fn main() {
+    let n: usize = 100;
+    let player_count: usize = 10;
+
+    if n == 0 {
+        println!("No games to play.");
+        return;
+    }
+
+    let mut total_turns: usize = 0;
+    let mut max_turns: usize = 0;
+    let mut rec_turns: usize;
+  
+    for _ in 0..n {
+        rec_turns = play(player_count, false);
+        total_turns += rec_turns;
+        max_turns = max(max_turns, rec_turns)
+    }
+
+    let average_turns: f64 = total_turns as f64 / n as f64;
+    println!("Average turns: {:.2}", average_turns);
+    println!("Maximum turns: {}", max_turns);
 }
