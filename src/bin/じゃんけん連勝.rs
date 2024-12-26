@@ -104,7 +104,7 @@ fn main() {
             }
         };
         if play_cnt % 1000000 == 0 {
-            println!("{}{}", (play_cnt/1000000).to_string().blue().bold(), "Million played.".bright_blue().bold())
+            println!("{}{}", (play_cnt/1000000).to_string().blue().bold(), " million(100万) played.".bright_blue().bold())
         }
 
     }
