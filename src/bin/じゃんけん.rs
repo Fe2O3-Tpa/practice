@@ -1,5 +1,6 @@
 use rand::Rng;
 use std::{collections::HashSet,cmp::max};
+use itertools::Itertools;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 enum Role {
@@ -38,9 +39,11 @@ impl Janken {
 
     fn is_draw(&self) -> bool {
         let unique_roles: HashSet<_> = self.result.iter().collect();
-        unique_roles.contains(&Role::Rock)
+        let draw_helper: bool = unique_roles.contains(&Role::Rock)
             && unique_roles.contains(&Role::Scissors)
-            && unique_roles.contains(&Role::Paper)
+            && unique_roles.contains(&Role::Paper);
+        let draw_helper2: bool = self.result.iter().all_equal();
+        draw_helper || draw_helper2
     }
 }
 
@@ -60,7 +63,6 @@ fn play(player_amount: usize, debug: bool) -> usize {
             did_turn += 1;
             if debug {
                 println!("{:?}", obj.result);
-                println!("turn end");
             }
         } else {
             if debug {
@@ -74,10 +76,7 @@ fn play(player_amount: usize, debug: bool) -> usize {
     did_turn
 }
 
-fn main() {
-    let n: usize = 100;
-    let player_count: usize = 10;
-
+fn run_simulation(n: usize, player_count: usize) {
     if n == 0 {
         println!("No games to play.");
         return;
@@ -85,15 +84,20 @@ fn main() {
 
     let mut total_turns: usize = 0;
     let mut max_turns: usize = 0;
-    let mut rec_turns: usize;
-  
+
     for _ in 0..n {
-        rec_turns = play(player_count, false);
+        let rec_turns = play(player_count, false);
         total_turns += rec_turns;
-        max_turns = max(max_turns, rec_turns)
+        max_turns = max(max_turns, rec_turns);
     }
 
     let average_turns: f64 = total_turns as f64 / n as f64;
     println!("Average turns: {:.2}", average_turns);
     println!("Maximum turns: {}", max_turns);
+}
+
+fn main() {
+    let n: usize = 100;
+    let player_count: usize = 10;
+    run_simulation(n, player_count);
 }
