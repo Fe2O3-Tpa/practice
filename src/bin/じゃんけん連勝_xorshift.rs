@@ -1,5 +1,6 @@
+// xorshift(seed)の余りの計算が不適切
 use std::{cmp::max, vec};
-use rand::Rng;
+use chrono::Local;
 use colored::Colorize;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
@@ -18,10 +19,19 @@ enum VOrD { // victory or defeat
 
 impl Role {
     fn random() -> Self {
-        let roles = [Role::Rock, Role::Scissors, Role::Paper];
-        let index = rand::thread_rng().gen_range(0,roles.len());
-        roles[index]
+        let this_seed: u64 = Local::now().timestamp_millis().abs() as u64;
+        let roles: [Role; 3] = [Role::Rock, Role::Scissors, Role::Paper];
+        let index: u64 = xorshift(this_seed) % 3;
+        roles[index as usize]
     }
+}
+
+fn xorshift(seed: u64) -> u64 {
+    let mut x: u64 = seed; 
+    x = x ^ (x << 13);
+    x = x ^ (x >> 7);
+    x = x ^ (x << 17);
+    x
 }
 
 fn run() -> Vec<bool> {

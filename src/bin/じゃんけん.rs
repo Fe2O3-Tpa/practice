@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::{collections::HashSet,cmp::max};
+use std::{collections::HashSet,cmp::{max,min}};
 use itertools::Itertools;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
@@ -84,20 +84,23 @@ fn run_simulation(n: usize, player_count: usize) {
 
     let mut total_turns: usize = 0;
     let mut max_turns: usize = 0;
+    let mut min_turns: usize = 2_usize.pow(32);
 
     for _ in 0..n {
         let rec_turns = play(player_count, false);
         total_turns += rec_turns;
         max_turns = max(max_turns, rec_turns);
+        min_turns = min(min_turns, rec_turns);
     }
 
     let average_turns: f64 = total_turns as f64 / n as f64;
     println!("Average turns: {:.2}", average_turns);
     println!("Maximum turns: {}", max_turns);
+    println!("Minimum turns: {}", min_turns);
 }
 
 fn main() {
     let n: usize = 100;
-    let player_count: usize = 10;
+    let player_count: usize = 26;
     run_simulation(n, player_count);
 }

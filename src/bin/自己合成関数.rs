@@ -1,12 +1,17 @@
 fn main() {
-    println!("{}",n_fn(test_fn, 30, 1));
+    println!("2^2^2^2^2 = 2↑↑5 = 2テトレーション5");
+    println!("{}",n_fn::<i128> (tetra, 5, 1));
 }
 
-fn test_fn(n: i32) -> i32 {
+fn tetra(n: i128) -> i128 {
+    n_fn(star_two, n as usize, 1)
+}
+
+fn star_two(n: i128) -> i128 {
     n*2
 }
 
-fn n_fn(fnc: fn(i32) -> i32, n: usize, m: i32) -> i32 { //fnc(fnc(...(fnc(m))...))
+fn n_fn<T> (fnc: fn(T) -> T, n: usize, m: T) -> T { //fnc(fnc(...(fnc(m))...))
     if n==0 {
         return m
     }

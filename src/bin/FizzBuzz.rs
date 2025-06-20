@@ -17,6 +17,13 @@ impl FizzBuzz {
         }
     }
 
+    fn new(value: u64) -> Self {
+        FizzBuzz{
+            value: value,
+            result: String::new()
+        }
+    }
+
     fn fizzbuzz_run(&self, punc: &str) {
         println!("{}{}{}", self.value, punc, self.result)
     }
@@ -24,10 +31,7 @@ impl FizzBuzz {
 
 fn fizzbuzz_for_run(punc: &str, max_run: u64) {
     for now in 1..=max_run {
-        FizzBuzz {
-            value: now,
-            result: String::from("a"),
-        }.recalc().fizzbuzz_run(punc);
+        (FizzBuzz::new(now)).recalc().fizzbuzz_run(punc);
     }
 }
 
